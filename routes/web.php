@@ -17,3 +17,16 @@ Route::get('/', function () {
 Route::get('/info', function () {
 	    phpinfo();
 });
+// api测试
+Route::post('/api/str',"Api\ApiController@str");
+Route::post('/api/array',"Api\ApiController@array");
+Route::post('/api/json',"Api\ApiController@json");
+
+Route::get('/request/restrict',"Api\ApiController@restrict")->middleware('Request10times');
+Route::post('/api/restrict',"Api\ApiController@restrict")->middleware('Request10times');
+// 用户注册、登录
+Route::post('/user/reg',"User\UserController@reg");
+Route::post('/user/login',"User\UserController@login");
+
+Route::get('/user/my',"User\UserController@my")->middleware(['Request10times','Checklogin']);
+Route::post('/user/my',"User\UserController@my")->middleware(['Request10times','Checklogin']);
