@@ -30,3 +30,6 @@ Route::post('/user/login',"User\UserController@login");
 
 Route::get('/user/my',"User\UserController@my")->middleware(['Request10times','Checklogin']);
 Route::post('/user/my',"User\UserController@my")->middleware(['Request10times','Checklogin']);
+
+// 资源控制器
+Route::resource('/res', 'ResController');

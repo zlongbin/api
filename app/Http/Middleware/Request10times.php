@@ -24,7 +24,7 @@ class Request10times
             die('超过次数限制');
         }
         // echo $ip;   echo "<br>";
-        // echo $num;  echo "<br>";
+        echo $num;  echo "<br>";
         Redis::incr($key);
         Redis::expire($key,5);
 

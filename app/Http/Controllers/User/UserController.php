@@ -71,6 +71,9 @@ class UserController extends Controller
         if($user_Info){
             if(password_verify($password,$user_Info['password'])){
                 $token = $this->getLoginToken($user_Info['id']);
+                $key = "login_token:uid:".$user_Info['id'];
+                Redis::set($key,$token);
+                Redis::expire($key,604800);
                 $response = [
                     'error' =>  0,
                     'msg'   =>  'ok',
@@ -91,20 +94,22 @@ class UserController extends Controller
         die(json_encode($response,JSON_UNESCAPED_UNICODE));
     }
     public function getLoginToken($uid){
-        $key = "login_token:uid:".$uid;
-        $token = Redis::get($key);
-        if($token){
-            return $token;
-        }else{
-            $login_token = substr(sha1(time().$uid.Str::random(10)),5,16);
-            Redis::set($key,$token);
-            Redis::expire($key,604800);
-            return $login_token;
-        }
+        // $key = "login_token:uid:".$uid;
+        // $token = Redis::get($key);
+        // if($token){
+        //     return $token;
+        // }else{
+        //     $login_token = substr(sha1(time().$uid.Str::random(10)),5,16);
+        //     Redis::set($key,$login_token);
+        //     Redis::expire($key,604800);
+        //     return $login_token;
+        // }
+        $login_token = substr(sha1(time().$uid.Str::random(10)),5,16);
+        return $login_token;
     }
     // 用户中心
     public function my(){
         echo  $_SERVER['REMOTE_ADDR'];
-        
+        return view('Res/Res');
     }
 }
